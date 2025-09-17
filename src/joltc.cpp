@@ -10383,6 +10383,25 @@ int JPH_StateRecorderImpl_GetDataSize(JPH_StateRecorderImpl* recorder)
 	return AsStateRecorderImpl(recorder)->GetDataSize();
 }
 
+void JPH_StateRecorderImpl_WriteBytes(JPH_StateRecorderImpl* recorder, const void* inData, int inNumBytes)
+{
+	AsStateRecorderImpl(recorder)->WriteBytes(inData, inNumBytes);
+}
+
+void JPH_StateRecorderImpl_ReadBytes(JPH_StateRecorderImpl* recorder, void* inData, int inNumBytes)
+{
+	AsStateRecorderImpl(recorder)->ReadBytes(inData, inNumBytes);
+}
+
+bool JPH_StateRecorderImpl_IsEqual(JPH_StateRecorderImpl* recorder1, JPH_StateRecorderImpl* recorder2)
+{
+	return AsStateRecorderImpl(recorder1)->IsEqual(AsStateRecorderImpl(*recorder2));
+}
+
+void JPH_StateRecorderImpl_Clear(JPH_StateRecorderImpl* recorder)
+{
+	AsStateRecorderImpl(recorder)->Clear();
+}
 
 class ManagedStateRecorderFilter final : public JPH::StateRecorderFilter
 {
@@ -10446,6 +10465,17 @@ const JPH_StateRecorderFilter_Procs* ManagedStateRecorderFilter::s_Procs = nullp
 void JPH_StateRecorderFilter_SetProcs(const JPH_StateRecorderFilter_Procs* procs)
 {
 	ManagedStateRecorderFilter::s_Procs = procs;
+}
+
+JPH_StateRecorderFilter* JPH_StateRecorderFilter_Create(void* userData)
+{
+	auto filter = new ManagedStateRecorderFilter(userData);
+	return ToStateRecorderFilter(filter);
+}
+
+void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter)
+{
+	delete AsStateRecorderFilter(filter);
 }
 
 JPH_SUPPRESS_WARNING_POP

@@ -2879,12 +2879,19 @@ JPH_CAPI void JPH_StateRecorderImpl_Rewind(JPH_StateRecorderImpl* recorder);
 JPH_CAPI bool JPH_StateRecorderImpl_IsEOF(const JPH_StateRecorderImpl* recorder);
 JPH_CAPI bool JPH_StateRecorderImpl_IsFailed(const JPH_StateRecorderImpl* recorder);
 JPH_CAPI int JPH_StateRecorderImpl_GetDataSize(JPH_StateRecorderImpl* recorder);
+JPH_CAPI void JPH_StateRecorderImpl_WriteBytes(JPH_StateRecorderImpl* recorder, const void* inData, int inNumBytes);
+JPH_CAPI void JPH_StateRecorderImpl_ReadBytes(JPH_StateRecorderImpl* recorder, void* inData, int inNumBytes);
+JPH_CAPI bool JPH_StateRecorderImpl_IsEqual(JPH_StateRecorderImpl* recorder1, JPH_StateRecorderImpl* recorder2);
+JPH_CAPI void JPH_StateRecorderImpl_Clear(JPH_StateRecorderImpl* recorder);
 
+/* StateRecorderFilter */
 typedef struct JPH_StateRecorderFilter_Procs {
 	bool(JPH_API_CALL* ShouldSaveBody)(void* userData, const JPH_Body* body);
 	bool(JPH_API_CALL* ShouldSaveConstraint)(void* userData, const JPH_Constraint* constraint);
 	bool(JPH_API_CALL* ShouldSaveContact)(void* userData, const JPH_BodyID bodyID1, const JPH_BodyID bodyID2);
 	bool(JPH_API_CALL* ShouldRestoreContact)(void* userData, const JPH_BodyID bodyID1, const JPH_BodyID bodyID2);
 } JPH_StateRecorderFilter_Procs;
+JPH_CAPI JPH_StateRecorderFilter* JPH_StateRecorderFilter_Create(void* userData);
+JPH_CAPI void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter);
 
 #endif /* JOLT_C_H_ */
