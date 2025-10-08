@@ -5210,10 +5210,10 @@ void JPH_PhysicsSystem_SaveState(const JPH_PhysicsSystem* system, JPH_StateRecor
 	system->physicsSystem->SaveState(AsStateRecorderImpl(*inStream), static_cast<EStateRecorderState>(inState), AsStateRecorderFilter(inFilter));
 }
 
-void JPH_PhysicsSystem_RestoreState(const JPH_PhysicsSystem* system, JPH_StateRecorderImpl* inStream, const JPH_StateRecorderFilter *inFilter)
+bool JPH_PhysicsSystem_RestoreState(const JPH_PhysicsSystem* system, JPH_StateRecorderImpl* inStream, const JPH_StateRecorderFilter *inFilter)
 {
 	JPH_ASSERT(system);
-	system->physicsSystem->RestoreState(AsStateRecorderImpl(*inStream), AsStateRecorderFilter(inFilter));
+	return system->physicsSystem->RestoreState(AsStateRecorderImpl(*inStream), AsStateRecorderFilter(inFilter));
 }
 
 #ifdef JPH_DEBUG_RENDERER
@@ -10401,6 +10401,16 @@ bool JPH_StateRecorderImpl_IsEqual(JPH_StateRecorderImpl* recorder1, JPH_StateRe
 void JPH_StateRecorderImpl_Clear(JPH_StateRecorderImpl* recorder)
 {
 	AsStateRecorderImpl(recorder)->Clear();
+}
+
+void JPH_StateRecorderImpl_SetValidating(JPH_StateRecorderImpl* recorder, bool inValidating)
+{
+	AsStateRecorderImpl(recorder)->SetValidating(inValidating);
+}
+
+bool JPH_StateRecorderImpl_IsValidating(JPH_StateRecorderImpl* recorder)
+{
+	return AsStateRecorderImpl(recorder)->IsValidating();
 }
 
 class ManagedStateRecorderFilter final : public JPH::StateRecorderFilter

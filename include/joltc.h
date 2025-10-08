@@ -1134,7 +1134,7 @@ JPH_CAPI void JPH_PhysicsSystem_GetBodies(const JPH_PhysicsSystem* system, JPH_B
 JPH_CAPI void JPH_PhysicsSystem_GetConstraints(const JPH_PhysicsSystem* system, const JPH_Constraint** constraints, uint32_t count);
 
 JPH_CAPI void JPH_PhysicsSystem_SaveState(const JPH_PhysicsSystem* system, JPH_StateRecorderImpl* inStream, JPH_StateRecorderState inState, const JPH_StateRecorderFilter *inFilter);
-JPH_CAPI void JPH_PhysicsSystem_RestoreState(const JPH_PhysicsSystem* system, JPH_StateRecorderImpl* inStream, const JPH_StateRecorderFilter *inFilter);
+JPH_CAPI bool JPH_PhysicsSystem_RestoreState(const JPH_PhysicsSystem* system, JPH_StateRecorderImpl* inStream, const JPH_StateRecorderFilter *inFilter);
 
 JPH_CAPI void JPH_PhysicsSystem_DrawBodies(JPH_PhysicsSystem* system, const JPH_DrawSettings* settings, JPH_DebugRenderer* renderer, const JPH_BodyDrawFilter* bodyFilter /* = nullptr */);
 JPH_CAPI void JPH_PhysicsSystem_DrawConstraints(JPH_PhysicsSystem* system, JPH_DebugRenderer* renderer);
@@ -2883,6 +2883,8 @@ JPH_CAPI void JPH_StateRecorderImpl_WriteBytes(JPH_StateRecorderImpl* recorder, 
 JPH_CAPI void JPH_StateRecorderImpl_ReadBytes(JPH_StateRecorderImpl* recorder, void* inData, int inNumBytes);
 JPH_CAPI bool JPH_StateRecorderImpl_IsEqual(JPH_StateRecorderImpl* recorder1, JPH_StateRecorderImpl* recorder2);
 JPH_CAPI void JPH_StateRecorderImpl_Clear(JPH_StateRecorderImpl* recorder);
+JPH_CAPI void JPH_StateRecorderImpl_SetValidating(JPH_StateRecorderImpl* recorder, bool inValidating);
+JPH_CAPI bool JPH_StateRecorderImpl_IsValidating(JPH_StateRecorderImpl* recorder);
 
 /* StateRecorderFilter */
 typedef struct JPH_StateRecorderFilter_Procs {
@@ -2891,6 +2893,7 @@ typedef struct JPH_StateRecorderFilter_Procs {
 	bool(JPH_API_CALL* ShouldSaveContact)(void* userData, const JPH_BodyID bodyID1, const JPH_BodyID bodyID2);
 	bool(JPH_API_CALL* ShouldRestoreContact)(void* userData, const JPH_BodyID bodyID1, const JPH_BodyID bodyID2);
 } JPH_StateRecorderFilter_Procs;
+JPH_CAPI void JPH_StateRecorderFilter_SetProcs(const JPH_StateRecorderFilter_Procs* procs);
 JPH_CAPI JPH_StateRecorderFilter* JPH_StateRecorderFilter_Create(void* userData);
 JPH_CAPI void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter);
 
