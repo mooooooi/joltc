@@ -150,14 +150,14 @@ static_assert(JPH_MotionQuality_Discrete == (int)JPH::EMotionQuality::Discrete);
 static_assert(JPH_MotionQuality_LinearCast == (int)JPH::EMotionQuality::LinearCast);
 
 // EOverrideMassProperties
-static_assert(sizeof(JPH_OverrideMassProperties) == sizeof(uint32_t));
+static_assert(sizeof(JPH_OverrideMassProperties) == sizeof(JPH::EOverrideMassProperties));
 static_assert(sizeof(JPH::EOverrideMassProperties) == sizeof(uint8_t));
 static_assert(JPH_OverrideMassProperties_CalculateMassAndInertia == (int)JPH::EOverrideMassProperties::CalculateMassAndInertia);
 static_assert(JPH_OverrideMassProperties_CalculateInertia == (int)JPH::EOverrideMassProperties::CalculateInertia);
 static_assert(JPH_OverrideMassProperties_MassAndInertiaProvided == (int)JPH::EOverrideMassProperties::MassAndInertiaProvided);
 
 // EAllowedDOFs
-static_assert(sizeof(JPH_AllowedDOFs) == sizeof(uint32_t));
+static_assert(sizeof(JPH_AllowedDOFs) == sizeof(JPH::EAllowedDOFs));
 static_assert(JPH_AllowedDOFs_All == (int)JPH::EAllowedDOFs::All);
 static_assert(JPH_AllowedDOFs_TranslationX == (int)JPH::EAllowedDOFs::TranslationX);
 static_assert(JPH_AllowedDOFs_TranslationY == (int)JPH::EAllowedDOFs::TranslationY);
@@ -174,7 +174,7 @@ static_assert(JPH_MotorState_Velocity == (int)JPH::EMotorState::Velocity);
 static_assert(JPH_MotorState_Position == (int)JPH::EMotorState::Position);
 
 // JPH_SwingType
-static_assert(sizeof(JPH_SwingType) == sizeof(uint32_t));
+static_assert(sizeof(JPH_SwingType) == sizeof(JPH::ESwingType));
 static_assert(JPH_SwingType_Cone == (int)JPH::ESwingType::Cone);
 static_assert(JPH_SwingType_Pyramid == (int)JPH::ESwingType::Pyramid);
 
@@ -188,7 +188,7 @@ static_assert(JPH_SixDOFConstraintAxis_RotationY == (int)JPH::SixDOFConstraintSe
 static_assert(JPH_SixDOFConstraintAxis_RotationZ == (int)JPH::SixDOFConstraintSettings::EAxis::RotationZ);
 
 // JPH_SpringMode
-static_assert(sizeof(JPH_SpringMode) == sizeof(uint32_t));
+static_assert(sizeof(JPH_SpringMode) == sizeof(JPH::ESpringMode));
 static_assert(JPH_SpringMode_FrequencyAndDamping == (int)JPH::ESpringMode::FrequencyAndDamping);
 static_assert(JPH_SpringMode_StiffnessAndDamping == (int)JPH::ESpringMode::StiffnessAndDamping);
 

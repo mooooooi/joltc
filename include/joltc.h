@@ -141,7 +141,7 @@ typedef struct JPH_StateRecorderImpl					JPH_StateRecorderImpl;
 typedef struct JPH_StateRecorderFilter					JPH_StateRecorderFilter;
 
 /* Enums */
-typedef enum JPH_PhysicsUpdateError {
+typedef enum JPH_PhysicsUpdateError : uint32_t {
 	JPH_PhysicsUpdateError_None = 0,
 	JPH_PhysicsUpdateError_ManifoldCacheFull = 1 << 0,
 	JPH_PhysicsUpdateError_BodyPairCacheFull = 1 << 1,
@@ -151,21 +151,19 @@ typedef enum JPH_PhysicsUpdateError {
 	_JPH_PhysicsUpdateError_Force32 = 0x7fffffff
 } JPH_PhysicsUpdateError;
 
-typedef enum JPH_BodyType {
+typedef enum JPH_BodyType : uint8_t {
 	JPH_BodyType_Rigid = 0,
 	JPH_BodyType_Soft = 1,
 
-	_JPH_BodyType_Count,
-	_JPH_BodyType_Force32 = 0x7fffffff
+	_JPH_BodyType_Count
 } JPH_BodyType;
 
-typedef enum JPH_MotionType {
+typedef enum JPH_MotionType : uint8_t {
 	JPH_MotionType_Static = 0,
 	JPH_MotionType_Kinematic = 1,
 	JPH_MotionType_Dynamic = 2,
 
-	_JPH_MotionType_Count,
-	_JPH_MotionType_Force32 = 0x7fffffff
+	_JPH_MotionType_Count
 } JPH_MotionType;
 
 typedef enum JPH_Activation
@@ -187,7 +185,7 @@ typedef enum JPH_ValidateResult {
 	_JPH_ValidateResult_Force32 = 0x7fffffff
 } JPH_ValidateResult;
 
-typedef enum JPH_ShapeType {
+typedef enum JPH_ShapeType : uint8_t {
 	JPH_ShapeType_Convex = 0,
 	JPH_ShapeType_Compound = 1,
 	JPH_ShapeType_Decorated = 2,
@@ -200,11 +198,10 @@ typedef enum JPH_ShapeType {
 	JPH_ShapeType_User3 = 8,
 	JPH_ShapeType_User4 = 9,
 
-	_JPH_ShapeType_Count,
-	_JPH_ShapeType_Force32 = 0x7fffffff
+	_JPH_ShapeType_Count
 } JPH_ShapeType;
 
-typedef enum JPH_ShapeSubType {
+typedef enum JPH_ShapeSubType : uint8_t {
 	JPH_ShapeSubType_Sphere = 0,
 	JPH_ShapeSubType_Box = 1,
 	JPH_ShapeSubType_Triangle = 2,
@@ -222,7 +219,6 @@ typedef enum JPH_ShapeSubType {
 	JPH_ShapeSubType_SoftBody = 14,
 
 	_JPH_ShapeSubType_Count,
-	_JPH_ShapeSubType_Force32 = 0x7fffffff
 } JPH_ShapeSubType;
 
 typedef enum JPH_ConstraintType {
@@ -265,24 +261,22 @@ typedef enum JPH_ConstraintSpace {
 	_JPH_ConstraintSpace_Force32 = 0x7fffffff
 } JPH_ConstraintSpace;
 
-typedef enum JPH_MotionQuality {
+typedef enum JPH_MotionQuality : uint8_t {
 	JPH_MotionQuality_Discrete = 0,
 	JPH_MotionQuality_LinearCast = 1,
 
 	_JPH_MotionQuality_Count,
-	_JPH_MotionQuality_Force32 = 0x7fffffff
 } JPH_MotionQuality;
 
-typedef enum JPH_OverrideMassProperties {
+typedef enum JPH_OverrideMassProperties : uint8_t {
 	JPH_OverrideMassProperties_CalculateMassAndInertia,
 	JPH_OverrideMassProperties_CalculateInertia,
 	JPH_OverrideMassProperties_MassAndInertiaProvided,
 
 	_JPH_JPH_OverrideMassProperties_Count,
-	_JPH_JPH_OverrideMassProperties_Force32 = 0x7FFFFFFF
 } JPH_OverrideMassProperties;
 
-typedef enum JPH_AllowedDOFs {
+typedef enum JPH_AllowedDOFs : uint8_t {
 	JPH_AllowedDOFs_All = 0b111111,
 	JPH_AllowedDOFs_TranslationX = 0b000001,
 	JPH_AllowedDOFs_TranslationY = 0b000010,
@@ -293,7 +287,6 @@ typedef enum JPH_AllowedDOFs {
 	JPH_AllowedDOFs_Plane2D = JPH_AllowedDOFs_TranslationX | JPH_AllowedDOFs_TranslationY | JPH_AllowedDOFs_RotationZ,
 
 	_JPH_AllowedDOFs_Count,
-	_JPH_AllowedDOFs_Force32 = 0x7FFFFFFF
 } JPH_AllowedDOFs;
 
 typedef enum JPH_GroundState {
@@ -306,28 +299,25 @@ typedef enum JPH_GroundState {
 	_JPH_GroundState_Force32 = 0x7FFFFFFF
 } JPH_GroundState;
 
-typedef enum JPH_BackFaceMode {
+typedef enum JPH_BackFaceMode : uint8_t {
 	JPH_BackFaceMode_IgnoreBackFaces,
 	JPH_BackFaceMode_CollideWithBackFaces,
 
 	_JPH_BackFaceMode_Count,
-	_JPH_BackFaceMode_Force32 = 0x7FFFFFFF
 } JPH_BackFaceMode;
 
-typedef enum JPH_ActiveEdgeMode {
+typedef enum JPH_ActiveEdgeMode : uint8_t {
 	JPH_ActiveEdgeMode_CollideOnlyWithActive,
 	JPH_ActiveEdgeMode_CollideWithAll,
 
 	_JPH_ActiveEdgeMode_Count,
-	_JPH_ActiveEdgeMode_Force32 = 0x7FFFFFFF
 } JPH_ActiveEdgeMode;
 
-typedef enum JPH_CollectFacesMode {
+typedef enum JPH_CollectFacesMode : uint8_t {
 	JPH_CollectFacesMode_CollectFaces,
 	JPH_CollectFacesMode_NoFaces,
 
 	_JPH_CollectFacesMode_Count,
-	_JPH_CollectFacesMode_Force32 = 0x7FFFFFFF
 } JPH_CollectFacesMode;
 
 typedef enum JPH_MotorState {
@@ -349,12 +339,11 @@ typedef enum JPH_CollisionCollectorType {
 	_JPH_CollisionCollectorType_Force32 = 0x7FFFFFFF
 } JPH_CollisionCollectorType;
 
-typedef enum JPH_SwingType {
+typedef enum JPH_SwingType : uint8_t {
 	JPH_SwingType_Cone,
 	JPH_SwingType_Pyramid,
 
 	_JPH_SwingType_Count,
-	_JPH_SwingType_Force32 = 0x7FFFFFFF
 } JPH_SwingType;
 
 typedef enum JPH_SixDOFConstraintAxis {
@@ -371,12 +360,11 @@ typedef enum JPH_SixDOFConstraintAxis {
 	_JPH_SixDOFConstraintAxis_Force32 = 0x7FFFFFFF
 } JPH_SixDOFConstraintAxis;
 
-typedef enum JPH_SpringMode {
+typedef enum JPH_SpringMode : uint8_t {
 	JPH_SpringMode_FrequencyAndDamping = 0,
 	JPH_SpringMode_StiffnessAndDamping = 1,
 
 	_JPH_SpringMode_Count,
-	_JPH_SpringMode_Force32 = 0x7FFFFFFF
 } JPH_SpringMode;
 
 /// Defines how to color soft body constraints
@@ -427,15 +415,14 @@ typedef enum JPH_Mesh_Shape_BuildQuality {
 	_JPH_Mesh_Shape_BuildQuality_Force32 = 0x7FFFFFFF
 } JPH_Mesh_Shape_BuildQuality;
 
-typedef enum JPH_TransmissionMode {
+typedef enum JPH_TransmissionMode : uint8_t {
     JPH_TransmissionMode_Auto = 0,
     JPH_TransmissionMode_Manual = 1,
 
     _JPH_TransmissionMode_Count,
-    _JPH_TransmissionMode_Force32 = 0x7FFFFFFF
 } JPH_TransmissionMode;
 
-typedef enum JPH_StateRecorderState
+typedef enum JPH_StateRecorderState : uint8_t
 {
 	None				= 0,														///< Save nothing
 	Global				= 1,														///< Save global physics system state (delta time, gravity, etc.)
