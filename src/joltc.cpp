@@ -180,6 +180,7 @@ DEF_MAP_DECL(VehicleConstraint, JPH_VehicleConstraint)
 
 DEF_MAP_DECL(StateRecorderImpl, JPH_StateRecorderImpl)
 DEF_MAP_DECL(StateRecorderFilter, JPH_StateRecorderFilter)
+DEF_MAP_DECL(BlobBuilder, JPH_BlobBuilder)
 
 // Callback for traces, connect this to your own trace function if you have one
 static JPH_TraceFunc s_TraceFunc = nullptr;
@@ -10486,6 +10487,42 @@ JPH_StateRecorderFilter* JPH_StateRecorderFilter_Create(void* userData)
 void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter)
 {
 	delete AsStateRecorderFilter(filter);
+}
+
+JPH_BlobBuilder* JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter)
+{
+	BlobBuilder *builder = new BlobBuilder();
+	PhysicsSystemState &physicsSystemState = builder->ConstructRoot<PhysicsSystemState>();
+	physicsSystem->physicsSystem->SaveAlignedState(*builder, physicsSystemState, static_cast<EStateRecorderState>(inFlags), AsStateRecorderFilter(inFilter));
+	return ToBlobBuilder(builder);
+}
+
+bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength)
+{
+	char* ptr = static_cast<char*>(buffer);
+	const BlobHeader &header = *reinterpret_cast<BlobHeader*>(ptr);
+	const PhysicsSystemState &state = *reinterpret_cast<PhysicsSystemState*>(ptr + sizeof(BlobHeader));
+	JPH_ASSERT(header.length + sizeof(BlobHeader) == bufferLength);
+	return physicsSystem->physicsSystem->RestoreAlignedState(state, nullptr, true);
+}
+
+uint32_t JPH_BlobBuilder_GetRequiredByteCount(JPH_BlobBuilder* inBuilder)
+{
+	return AsBlobBuilder(inBuilder)->GetBlobByteCount();
+}
+
+void JPH_BlobBuilder_Flush(JPH_BlobBuilder* inBuilder, void* inBuffer, uint32_t inBufferLength)
+{
+	const auto builder = AsBlobBuilder(inBuilder);
+	builder->CreateBlobBytes(inBuffer, inBufferLength);
+
+	delete builder;
+}
+
+void JPH_BlobBuilder_Destroy(const JPH_BlobBuilder* inBuilder)
+{
+	const auto builder = AsBlobBuilder(inBuilder);
+	delete builder;
 }
 
 JPH_SUPPRESS_WARNING_POP

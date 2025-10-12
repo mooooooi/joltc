@@ -245,5 +245,9 @@ static_assert(JPH_Mesh_Shape_BuildQuality_FavorBuildSpeed == (int)JPH::MeshShape
 static_assert(JPH_TransmissionMode_Auto == (int)JPH::ETransmissionMode::Auto);
 static_assert(JPH_TransmissionMode_Manual == (int)JPH::ETransmissionMode::Manual);
 
+static_assert(sizeof(JPH_StateRecorderState) == sizeof(JPH::EStateRecorderState));
+static_assert(sizeof(JPH_GlobalState) == sizeof(JPH::GlobalState));
+static_assert(sizeof(JPH_PhysicsSystemState) == sizeof(JPH::PhysicsSystemState));
+
 
 #endif

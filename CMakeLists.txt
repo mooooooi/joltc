@@ -357,6 +357,22 @@ if (MSVC)
 	target_compile_options(${TARGET_NAME} PRIVATE $<$<CONFIG:DEBUG>:/sdl> $<$<NOT:$<CONFIG:DEBUG>>:/sdl->)
 else()
 
+	target_compile_options(${TARGET_NAME} PRIVATE $<$<CONFIG:Debug>:-g>)
+
+	# Security enhancements (similar to /sdl)
+	target_compile_options(${TARGET_NAME} PRIVATE
+			$<$<CONFIG:Debug>:-D_FORTIFY_SOURCE=1>
+			$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=2>
+	)
+
+	# Additional security flags for GCC/Clang
+	target_compile_options(${TARGET_NAME} PRIVATE
+			-fstack-protector
+			$<$<NOT:$<CONFIG:Debug>>:-fstack-protector-strong>
+			-Wformat
+			-Wformat-security
+	)
+
 endif ()
 
 if (JPH_INSTALL)

@@ -139,6 +139,8 @@ typedef struct JPH_GroupFilterTable						JPH_GroupFilterTable;  /* Inherits JPH_
 
 typedef struct JPH_StateRecorderImpl					JPH_StateRecorderImpl;
 typedef struct JPH_StateRecorderFilter					JPH_StateRecorderFilter;
+typedef struct JPH_BlobBuilder							JPH_BlobBuilder;
+
 
 /* Enums */
 typedef enum JPH_PhysicsUpdateError : uint32_t {
@@ -2883,5 +2885,61 @@ typedef struct JPH_StateRecorderFilter_Procs {
 JPH_CAPI void JPH_StateRecorderFilter_SetProcs(const JPH_StateRecorderFilter_Procs* procs);
 JPH_CAPI JPH_StateRecorderFilter* JPH_StateRecorderFilter_Create(void* userData);
 JPH_CAPI void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter);
+
+template<typename T>
+struct JPH_BlobArray
+{
+	int mOffsetPtr;
+	int mLength;
+};
+
+struct JPH_GlobalState
+{
+	float previousStepDeltaTime;
+	JPH_Vec3 gravity;
+};
+
+struct JPH_Sphere
+{
+	JPH_Vec3 center;
+	float radius;
+};
+
+struct JPH_MotionPropertiesState
+{
+	JPH_Vec3 linearVelocity;
+	JPH_Vec3 angularVelocity;
+	JPH_Vec3 force;
+	JPH_Vec3 torque;
+#ifdef JPH_DOUBLE_PRECISION
+	Double3 sleepTestOffset;
+#endif // JPH_DOUBLE_PRECISION
+	JPH_Sphere sleepTestSpheres[3];
+	float sleepTestTimer;
+	bool allowSleeping;
+};
+
+struct JPH_BodyState
+{
+	JPH_BodyID id;
+	bool isActive;
+	JPH_Vec3 position;
+	JPH_Quat rotation;
+	JPH_MotionPropertiesState motionProperties;
+};
+
+struct JPH_PhysicsSystemState
+{
+	JPH_StateRecorderState flags;
+	JPH_GlobalState global;
+	JPH_BlobArray<JPH_BodyState> bodies;
+};
+
+JPH_CAPI JPH_BlobBuilder* JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter);
+JPH_CAPI bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength);
+
+JPH_CAPI uint32_t JPH_BlobBuilder_GetRequiredByteCount(JPH_BlobBuilder* inBuilder);
+JPH_CAPI void JPH_BlobBuilder_Flush(JPH_BlobBuilder* inBuilder, void* inBuffer, uint32_t inBufferLength);
+JPH_CAPI void JPH_BlobBuilder_Destroy(const JPH_BlobBuilder* inBuilder);
 
 #endif /* JOLT_C_H_ */
