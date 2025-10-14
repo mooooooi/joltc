@@ -2923,9 +2923,60 @@ struct JPH_BodyState
 {
 	JPH_BodyID id;
 	bool isActive;
+	bool isSoft;
 	JPH_Vec3 position;
 	JPH_Quat rotation;
 	JPH_MotionPropertiesState motionProperties;
+};
+
+struct JPH_BodyPair
+{
+	JPH_BodyID BodyA;
+	JPH_BodyID BodyB;
+};
+
+struct JPH_CachedContactPointState
+{
+	JPH_Vec3 position1;
+	JPH_Vec3 position2;
+	float nonPenetrationLambda;
+	float frictionLambda[2];
+};
+
+struct JPH_CachedManifoldState
+{
+	JPH_Vec3 contactNormal;
+	JPH_BlobArray<JPH_CachedContactPointState> contactPoints;
+};
+
+struct JPH_ManifoldKeyValueState
+{
+	JPH_SubShapeIDPair key;
+	JPH_CachedManifoldState value;
+};
+
+struct JPH_CachedBodyPairState
+{
+	JPH_Vec3 deltaPosition;
+	JPH_Vec3 deltaRotation;
+	JPH_BlobArray<JPH_ManifoldKeyValueState> manifolds;
+};
+
+struct JPH_BodyPairKeyValueState
+{
+	JPH_BodyPair key;
+	JPH_CachedBodyPairState value;
+};
+
+struct JPH_ManifoldCacheState
+{
+	JPH_BlobArray<JPH_BodyPairKeyValueState> bodyPairs;
+	JPH_BlobArray<JPH_SubShapeIDPair> ccdManifolds;
+};
+
+struct JPH_ContactConstraintState
+{
+	JPH_ManifoldCacheState manifold;
 };
 
 struct JPH_PhysicsSystemState
@@ -2933,6 +2984,7 @@ struct JPH_PhysicsSystemState
 	JPH_StateRecorderState flags;
 	JPH_GlobalState global;
 	JPH_BlobArray<JPH_BodyState> bodies;
+	JPH_ContactConstraintState contacts;
 };
 
 JPH_CAPI JPH_BlobBuilder* JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter);
