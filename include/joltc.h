@@ -2922,8 +2922,6 @@ struct JPH_MotionPropertiesState
 struct JPH_BodyState
 {
 	JPH_BodyID id;
-	bool isActive;
-	bool isSoft;
 	JPH_Vec3 position;
 	JPH_Quat rotation;
 	JPH_MotionPropertiesState motionProperties;
