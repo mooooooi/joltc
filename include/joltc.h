@@ -2986,11 +2986,60 @@ struct JPH_PhysicsSystemState
 	JPH_ContactConstraintState contacts;
 };
 
-JPH_CAPI JPH_BlobBuilder* JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter);
+JPH_CAPI void JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_BlobBuilder* builder, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter);
 JPH_CAPI bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength);
 
 JPH_CAPI uint32_t JPH_BlobBuilder_GetRequiredByteCount(JPH_BlobBuilder* inBuilder);
+JPH_CAPI JPH_BlobBuilder* JPH_BlobBuilder_Create(int chunkSize);
 JPH_CAPI void JPH_BlobBuilder_Flush(JPH_BlobBuilder* inBuilder, void* inBuffer, uint32_t inBufferLength);
 JPH_CAPI void JPH_BlobBuilder_Destroy(const JPH_BlobBuilder* inBuilder);
+JPH_CAPI void JPH_BlobBuilder_Reset(JPH_BlobBuilder* inBuilder);
+
+struct JPH_CharacterBaseState
+{
+    JPH_GroundState groundState;
+    JPH_BodyID groundBodyID;
+    JPH_SubShapeID groundBodySubShapeID;
+    JPH_Vec3 groundPosition;
+    JPH_Vec3 groundNormal;
+    JPH_Vec3 groundVelocity;
+};
+
+struct JPH_CharacterVirtualContactKeyState
+{
+    JPH_BodyID bodyB;
+    JPH_CharacterID characterIDB;
+    JPH_SubShapeID subShapeIDB;
+};
+
+struct JPH_CharacterVirtualContactState
+{
+    JPH_CharacterVirtualContactKeyState key;
+    JPH_Vec3 position;
+    JPH_Vec3 linearVelocity;
+    JPH_Vec3 contactNormal;
+    JPH_Vec3 surfaceNormal;
+    float distance;
+    float fraction;
+    JPH_MotionType motionTypeB;
+    bool isSensorB;
+    bool hadCollision;
+    bool wasDiscarded;
+    bool canPushCharacter;
+};
+
+struct JPH_CharacterVirtualState
+{
+    JPH_CharacterBaseState base;
+    JPH_Vec3 position;
+    JPH_Quat rotation;
+    JPH_Vec3 linearVelocity;
+    float lastDeltaTime;
+    bool maxHitsExceeded;
+    JPH_BlobArray<JPH_CharacterVirtualContactState> contacts;
+};
+
+JPH_CAPI void JPH_CharacterVirtual_SaveAlignedState(const JPH_CharacterVirtual* character, JPH_BlobBuilder* builder);
+JPH_CAPI void JPH_CharacterVirtual_RestoreAlignedState(JPH_CharacterVirtual* character, void* buffer, uint32_t bufferLength);
 
 #endif /* JOLT_C_H_ */

@@ -193,11 +193,11 @@ static_assert(JPH_SpringMode_FrequencyAndDamping == (int)JPH::ESpringMode::Frequ
 static_assert(JPH_SpringMode_StiffnessAndDamping == (int)JPH::ESpringMode::StiffnessAndDamping);
 
 // EGroundState
-static_assert(sizeof(JPH::CharacterBase::EGroundState) == sizeof(JPH_GroundState));
-static_assert(JPH_GroundState_OnGround == (int)JPH::CharacterBase::EGroundState::OnGround);
-static_assert(JPH_GroundState_OnSteepGround == (int)JPH::CharacterBase::EGroundState::OnSteepGround);
-static_assert(JPH_GroundState_NotSupported == (int)JPH::CharacterBase::EGroundState::NotSupported);
-static_assert(JPH_GroundState_InAir == (int)JPH::CharacterBase::EGroundState::InAir);
+static_assert(sizeof(JPH::EGroundState) == sizeof(JPH_GroundState));
+static_assert(JPH_GroundState_OnGround == (int)JPH::EGroundState::OnGround);
+static_assert(JPH_GroundState_OnSteepGround == (int)JPH::EGroundState::OnSteepGround);
+static_assert(JPH_GroundState_NotSupported == (int)JPH::EGroundState::NotSupported);
+static_assert(JPH_GroundState_InAir == (int)JPH::EGroundState::InAir);
 
 // EBackFaceMode
 static_assert(JPH_BackFaceMode_IgnoreBackFaces == (int)JPH::EBackFaceMode::IgnoreBackFaces);
@@ -249,5 +249,8 @@ static_assert(sizeof(JPH_StateRecorderState) == sizeof(JPH::EStateRecorderState)
 static_assert(sizeof(JPH_GlobalState) == sizeof(JPH::GlobalState));
 static_assert(sizeof(JPH_PhysicsSystemState) == sizeof(JPH::PhysicsSystemState));
 
+static_assert(sizeof(JPH_CharacterVirtualContactState) == sizeof(JPH::CharacterVirtualContactState));
+static_assert(sizeof(JPH_CharacterBaseState) == sizeof(JPH::CharacterBaseState));
+static_assert(sizeof(JPH_CharacterVirtualState) == sizeof(JPH::CharacterVirtualState));
 
 #endif

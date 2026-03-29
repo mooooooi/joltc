@@ -10489,12 +10489,11 @@ void JPH_StateRecorderFilter_Destroy(const JPH_StateRecorderFilter* filter)
 	delete AsStateRecorderFilter(filter);
 }
 
-JPH_BlobBuilder* JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter)
+void JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_BlobBuilder* inBuilder, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter)
 {
-	BlobBuilder *builder = new BlobBuilder();
+	auto builder = AsBlobBuilder(inBuilder);
 	PhysicsSystemState &physicsSystemState = builder->ConstructRoot<PhysicsSystemState>();
 	physicsSystem->physicsSystem->SaveAlignedState(*builder, physicsSystemState, static_cast<EStateRecorderState>(inFlags), AsStateRecorderFilter(inFilter));
-	return ToBlobBuilder(builder);
 }
 
 bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength)
@@ -10506,6 +10505,12 @@ bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, voi
 	return physicsSystem->physicsSystem->RestoreAlignedState(state, nullptr, true);
 }
 
+JPH_BlobBuilder* JPH_BlobBuilder_Create(int chunkSize)
+{
+	auto builder = new BlobBuilder(chunkSize);
+	return ToBlobBuilder(builder);
+}
+
 uint32_t JPH_BlobBuilder_GetRequiredByteCount(JPH_BlobBuilder* inBuilder)
 {
 	return AsBlobBuilder(inBuilder)->GetBlobByteCount();
@@ -10515,14 +10520,32 @@ void JPH_BlobBuilder_Flush(JPH_BlobBuilder* inBuilder, void* inBuffer, uint32_t 
 {
 	const auto builder = AsBlobBuilder(inBuilder);
 	builder->CreateBlobBytes(inBuffer, inBufferLength);
-
-	delete builder;
 }
 
 void JPH_BlobBuilder_Destroy(const JPH_BlobBuilder* inBuilder)
 {
 	const auto builder = AsBlobBuilder(inBuilder);
 	delete builder;
+}
+
+void JPH_BlobBuilder_Reset(JPH_BlobBuilder* inBuilder)
+{
+	AsBlobBuilder(inBuilder)->Reset();
+}
+
+
+void JPH_CharacterVirtual_SaveAlignedState(const JPH_CharacterVirtual* inCharacter, JPH_BlobBuilder* inBuilder)
+{
+	auto builder = AsBlobBuilder(inBuilder);
+	auto character = AsCharacterVirtual(inCharacter);
+	CharacterVirtualState &state = builder->ConstructRoot<CharacterVirtualState>();
+	character->SaveAlignedState(*builder, state);
+}
+
+void JPH_CharacterVirtual_RestoreAlignedState(JPH_CharacterVirtual* inCharacter, void* buffer, uint32_t bufferLength)
+{
+	auto character = AsCharacterVirtual(inCharacter);
+	return character->RestoreAlignedState(*reinterpret_cast<CharacterVirtualState*>(buffer));
 }
 
 JPH_SUPPRESS_WARNING_POP
