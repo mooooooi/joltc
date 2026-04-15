@@ -10496,12 +10496,10 @@ void JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, 
 	physicsSystem->physicsSystem->SaveAlignedState(*builder, physicsSystemState, static_cast<EStateRecorderState>(inFlags), AsStateRecorderFilter(inFilter));
 }
 
-bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength, JPH_StateRecorderFilter* inFilter)
+bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, JPH_StateRecorderFilter* inFilter)
 {
 	char* ptr = static_cast<char*>(buffer);
-	const BlobHeader &header = *reinterpret_cast<BlobHeader*>(ptr);
-	const PhysicsSystemState &state = *reinterpret_cast<PhysicsSystemState*>(ptr + sizeof(BlobHeader));
-	JPH_ASSERT(header.length + sizeof(BlobHeader) == bufferLength);
+	const PhysicsSystemState &state = *reinterpret_cast<PhysicsSystemState*>(ptr);
 	return physicsSystem->physicsSystem->RestoreAlignedState(state, AsStateRecorderFilter(inFilter), true);
 }
 

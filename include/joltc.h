@@ -2987,7 +2987,7 @@ struct JPH_PhysicsSystemState
 };
 
 JPH_CAPI void JPH_PhysicsSystem_SaveAlignedState(const JPH_PhysicsSystem* physicsSystem, JPH_BlobBuilder* builder, JPH_StateRecorderState inFlags, JPH_StateRecorderFilter* inFilter);
-JPH_CAPI bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, uint32_t bufferLength, JPH_StateRecorderFilter* inFilter);
+JPH_CAPI bool JPH_PhysicsSystem_RestoreAlignedState(JPH_PhysicsSystem* physicsSystem, void* buffer, JPH_StateRecorderFilter* inFilter);
 
 JPH_CAPI uint32_t JPH_BlobBuilder_GetRequiredByteCount(JPH_BlobBuilder* inBuilder);
 JPH_CAPI JPH_BlobBuilder* JPH_BlobBuilder_Create(int chunkSize);
